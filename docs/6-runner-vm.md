@@ -16,5 +16,6 @@
 # https://cloud.google.com/compute/docs/connect/windows-ssh#startup-script
 # gcloud compute ssh gitlab-runner-windows
 # normal ssh 'pubkey permission denied'
+# pwsh
 
 ```
