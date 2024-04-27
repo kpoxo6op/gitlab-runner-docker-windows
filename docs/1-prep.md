@@ -1,4 +1,4 @@
-# install terraform and google sdk 
+# install terraform and google sdk
 
 ```sh
 #!/bin/bash
