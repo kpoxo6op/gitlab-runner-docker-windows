@@ -1,7 +1,8 @@
 resource "google_compute_instance" "windows_vm" {
+  project      = "gitlab-agent-pwsh"
   name         = "gitlab-runner-windows"
   machine_type = "e2-medium"
-  zone         = "australia-southeast1"
+  zone         = "australia-southeast1-a"
 
   tags = ["windows-vm-rdp"]
 
