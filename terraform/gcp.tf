@@ -1,3 +1,11 @@
+data template_file "startup_script" {
+  template = file("${path.module}/startup-script.ps1")
+
+  vars = {
+    runner_token = gitlab_user_runner.runner.token
+  }
+}
+
 resource "google_compute_instance" "windows_vm" {
   project      = "gitlab-agent-pwsh"
   name         = "gitlab-runner-windows"
@@ -21,7 +29,7 @@ resource "google_compute_instance" "windows_vm" {
   }
 
   metadata = {
-    windows-startup-script-ps1    = file("startup-script.ps1")
+    windows-startup-script-ps1    = data.template_file.startup_script.rendered
     enable-windows-ssh            = "TRUE"
     sysprep-specialize-script-cmd = "googet -noconfirm=true install google-compute-engine-ssh"
   }
@@ -31,7 +39,6 @@ resource "google_compute_instance" "windows_vm" {
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
 }
-
 
 resource "google_compute_firewall" "allow_rdp" {
   name    = "allow-rdp"
