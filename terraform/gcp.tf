@@ -1,4 +1,4 @@
-data template_file "startup_script" {
+data "template_file" "startup_script" {
   template = file("${path.module}/startup-script.ps1")
 
   vars = {
@@ -29,7 +29,7 @@ resource "google_compute_instance" "windows_vm" {
   }
 
   metadata = {
-    windows-startup-script-ps1    = data.template_file.startup_script.rendered
+    sysprep-specialize-script-ps1 = data.template_file.startup_script.rendered
     enable-windows-ssh            = "TRUE"
     sysprep-specialize-script-cmd = "googet -noconfirm=true install google-compute-engine-ssh"
   }
