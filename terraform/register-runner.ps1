@@ -17,13 +17,11 @@ $registerParams = @(
   "--builds-dir", $runnerDir,
   "--cache-dir", $runnerDir,
   "--config", "$runnerDir\config.toml",
-  "--description", "docker runner",
-  "--docker-image", "alpine:latest",
-  "--executor", "docker",
+  "--description", "docker for windows runner",
+  "--executor", "docker-windows",
   "--non-interactive",
   "--token", "${runner_token}",
-  "--url", "https://gitlab.com/",
-  "--tag-list", "docker,windows"
+  "--url", "https://gitlab.com/"
 )
 & $gitlabRunnerExe @registerParams
 
@@ -40,8 +38,9 @@ $installArgs = @(
 )
 Start-Process @commonParams -ArgumentList $installArgs
 
-Write-Output "Start runner service"
-Start-Process @commonParams -ArgumentList "start"
+# autostarts after VM restart after docker installation
+# Write-Output "Start runner service"
+# Start-Process @commonParams -ArgumentList "start"
 
 Write-Output "Verify runners"
 & $gitlabRunnerExe "verify"
