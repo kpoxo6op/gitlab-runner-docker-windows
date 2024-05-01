@@ -21,7 +21,8 @@ $registerParams = @(
   "--executor", "docker-windows",
   "--non-interactive",
   "--token", "${runner_token}",
-  "--url", "https://gitlab.com/"
+  "--url", "https://gitlab.com/",
+  "--docker-image", "mcr.microsoft.com/windows/servercore:ltsc2019"
 )
 & $gitlabRunnerExe @registerParams
 
@@ -42,8 +43,8 @@ Start-Process @commonParams -ArgumentList $installArgs
 # Write-Output "Start runner service"
 # Start-Process @commonParams -ArgumentList "start"
 
-Write-Output "Verify runners"
-& $gitlabRunnerExe "verify"
-Get-WinEvent -ProviderName gitlab-runner | Format-Table -wrap -auto
+# Write-Output "Verify runners"
+# & $gitlabRunnerExe "verify"
+# Get-WinEvent -ProviderName gitlab-runner | Format-Table -wrap -auto
 
 Stop-Transcript

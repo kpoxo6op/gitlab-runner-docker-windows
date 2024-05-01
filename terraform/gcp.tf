@@ -16,7 +16,7 @@ resource "google_compute_instance" "windows_vm" {
 
   boot_disk {
     initialize_params {
-      image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20231213"
+      image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240111"
       size  = 50
     }
   }
