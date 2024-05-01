@@ -1,37 +1,42 @@
 $logFile = "C:\Logs\register-runner.txt"
+$runnerDir = "C:\GitLab-Runner"
 $dir = Split-Path -Parent $logFile
 New-Item -ItemType Directory -Path $dir
 Start-Transcript -Path $logFile -Append
 
-New-Item -Path C:\GitLab-Runner -ItemType Directory
-Set-Location C:\GitLab-Runner
+New-Item -Path $runnerDir -ItemType Directory
+Set-Location $runnerDir
 
-Invoke-WebRequest -Uri "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-windows-amd64.exe" -OutFile gitlab-runner.exe
+$gitlabRunnerUrl = "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-windows-amd64.exe"
+$gitlabRunnerExe = Join-Path -Path $runnerDir -ChildPath "gitlab-runner.exe"
+
+Invoke-WebRequest -Uri $gitlabRunnerUrl -OutFile $gitlabRunnerExe
 Write-Output "Register runner with token ${runner_token}"
 $registerParams = @(
-    "register",
-    "--builds-dir", "C:\GitLab-Runner",
-    "--cache-dir", "C:\GitLab-Runner",
-    "--config", "C:\GitLab-Runner\config.toml",
-    "--description", "docker runner",
-    "--docker-image", "alpine:latest",
-    "--executor", "docker",
-    "--non-interactive",
-    "--token", "${runner_token}",
-    "--url", "https://gitlab.com/"
+  "register",
+  "--builds-dir", $runnerDir,
+  "--cache-dir", $runnerDir,
+  "--config", "$runnerDir\config.toml",
+  "--description", "docker runner",
+  "--docker-image", "alpine:latest",
+  "--executor", "docker",
+  "--non-interactive",
+  "--token", "${runner_token}",
+  "--url", "https://gitlab.com/",
+  "--tag-list", "docker,windows"
 )
-& .\gitlab-runner.exe @registerParams
+& $gitlabRunnerExe @registerParams
 
 Write-Output "Install runner service"
 $commonParams = @{
-    FilePath    = C:\GitLab-Runner\gitlab-runner.exe
-    NoNewWindow = $true
-    Wait        = $true
+  FilePath    = $gitlabRunnerExe
+  NoNewWindow = $true
+  Wait        = $true
 }
 $installArgs = @(
   "install",
-  "--working-directory", "C:\GitLab-Runner",
-  "--config", "C:\GitLab-Runner\config.toml"
+  "--working-directory", $runnerDir,
+  "--config", "$runnerDir\config.toml"
 )
 Start-Process @commonParams -ArgumentList $installArgs
 
@@ -39,8 +44,7 @@ Write-Output "Start runner service"
 Start-Process @commonParams -ArgumentList "start"
 
 Write-Output "Verify runners"
-& .\gitlab-runner.exe "verify"
-
+& $gitlabRunnerExe "verify"
 Get-WinEvent -ProviderName gitlab-runner | Format-Table -wrap -auto
 
 Stop-Transcript
