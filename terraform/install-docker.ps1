@@ -1,4 +1,4 @@
-$logFile = "C:\Logs\isntall-docker.txt"
+$logFile = "C:\Logs\install-docker.txt"
 $dir = Split-Path -Parent $logFile
 New-Item -ItemType Directory -Path $dir
 Start-Transcript -Path $logFile -Append

@@ -8,7 +8,6 @@ Set-Location C:\GitLab-Runner
 
 Invoke-WebRequest -Uri "https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-windows-amd64.exe" -OutFile gitlab-runner.exe
 Write-Output "Register runner with token ${runner_token}"
-# todo fix syntax
 $registerParams = @(
     "register",
     "--builds-dir", "C:\GitLab-Runner",
