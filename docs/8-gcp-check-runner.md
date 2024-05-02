@@ -1,7 +1,7 @@
 # check docker and runner registration
 
 ```sh
-gcloud compute ssh gitlab-runner-windows
+gcloud compute ssh gitlab-runner-windows --project=gitlab-agent-pwsh --zone=australia-southeast1-a
 pwsh
 Get-Content C:\Logs\install-docker.txt
 Get-Content C:\Logs\register-runner.txt

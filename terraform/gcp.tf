@@ -1,5 +1,5 @@
 data "template_file" "sysprep_script" {
-  template = file("${path.module}/register-runner.ps1")
+  template = file("${path.module}/install-docker-register-runner.ps1")
 
   vars = {
     runner_token = gitlab_user_runner.runner.token
@@ -16,7 +16,10 @@ resource "google_compute_instance" "windows_vm" {
 
   boot_disk {
     initialize_params {
-      image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240111"
+      # ssh works
+      # image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240111"
+      # check if script by google enables ssh for this versin
+      image = "projects/windows-cloud/global/images/windows-server-2019-dc-v20231213"
       size  = 50
     }
   }
@@ -29,8 +32,8 @@ resource "google_compute_instance" "windows_vm" {
   }
 
   metadata = {
-    sysprep-specialize-script-ps1 = data.template_file.sysprep_script.rendered
-    windows-startup-script-ps1    = file("install-docker.ps1")
+    # sysprep-specialize-script-ps1 = data.template_file.sysprep_script.rendered
+    windows-startup-script-ps1    = data.template_file.sysprep_script.rendered
     enable-windows-ssh            = "TRUE"
     sysprep-specialize-script-cmd = "googet -noconfirm=true install google-compute-engine-ssh"
   }

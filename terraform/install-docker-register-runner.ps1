@@ -8,14 +8,11 @@ $ScriptUrl = "https://raw.githubusercontent.com/microsoft/Windows-Containers/Mai
 Invoke-WebRequest -Uri $ScriptUrl -OutFile "install-docker-ce.ps1"
 .\install-docker-ce.ps1 -Force -DockerVersion '26.1.1'
 
-if (get-service *docker* -ea SilentlyContinue) {
+if (Get-Service *docker* -ea SilentlyContinue) {
 
   $logFile = "C:\Logs\register-runner.txt"
   $runnerDir = "C:\GitLab-Runner"
-  $dir = Split-Path -Parent $logFile
-  New-Item -ItemType Directory -Path $dir
   Start-Transcript -Path $logFile -Append
-
   New-Item -Path $runnerDir -ItemType Directory
   Set-Location $runnerDir
 
@@ -34,8 +31,10 @@ if (get-service *docker* -ea SilentlyContinue) {
     "--non-interactive",
     "--token", "${runner_token}",
     "--url", "https://gitlab.com/",
-    "--docker-image", "mcr.microsoft.com/windows/nanoserver:ltsc2022",
-    "--docker-helper-image", "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-bleeding-nanoserver21H2"
+    # https://hub.docker.com/_/microsoft-windows-nanoserver
+    "--docker-image", "mcr.microsoft.com/windows/nanoserver:ltsc2019",
+    # https://hub.docker.com/r/gitlab/gitlab-runner-helper/tags
+    "--docker-helper-image", "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-bleeding-nanoserver1809"
   )
   & $gitlabRunnerExe @registerParams
 
@@ -60,7 +59,7 @@ if (get-service *docker* -ea SilentlyContinue) {
   Get-WinEvent -ProviderName gitlab-runner | Format-Table -wrap -auto
 
 } else {
-  Write-Output "wait for docker before registering runner"
+  Write-Output "Waiting for Docker before registering runner"
 }
 
 Stop-Transcript
