@@ -1,5 +1,5 @@
-data "template_file" "sysprep_script" {
-  template = file("${path.module}/install-docker-register-runner.ps1")
+data "template_file" "startup_script" {
+  template = file("${path.module}/startup.ps1")
 
   vars = {
     runner_token = gitlab_user_runner.runner.token
@@ -29,7 +29,7 @@ resource "google_compute_instance" "windows_vm" {
   }
 
   metadata = {
-    windows-startup-script-ps1    = data.template_file.sysprep_script.rendered
+    windows-startup-script-ps1    = data.template_file.startup_script.rendered
     enable-windows-ssh            = "TRUE"
     sysprep-specialize-script-cmd = "googet -noconfirm=true install google-compute-engine-ssh"
   }
