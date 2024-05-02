@@ -20,9 +20,9 @@ $registerParams = @(
   "--description", "docker for windows runner",
   "--executor", "docker-windows",
   "--non-interactive",
-  "--token", "${runner_token}",
+  "--token", "glrt-XNSueHSZzTBjQxRrwT-x",
   "--url", "https://gitlab.com/",
-  "--docker-image", "mcr.microsoft.com/windows/servercore:ltsc2022"
+  "--docker-image", "mcr.microsoft.com/windows/nanoserver:ltsc2022"
 )
 & $gitlabRunnerExe @registerParams
 
@@ -39,9 +39,9 @@ $installArgs = @(
 )
 Start-Process @commonParams -ArgumentList $installArgs
 
-# autostarts after VM restart after docker installation
-# Write-Output "Start runner service"
-# Start-Process @commonParams -ArgumentList "start"
+# DOES NOT autostart after VM restart after docker installation
+Write-Output "Start runner service"
+Start-Process @commonParams -ArgumentList "start"
 
 # Write-Output "Verify runners"
 # & $gitlabRunnerExe "verify"
