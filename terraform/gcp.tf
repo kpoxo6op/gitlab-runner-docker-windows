@@ -16,10 +16,7 @@ resource "google_compute_instance" "windows_vm" {
 
   boot_disk {
     initialize_params {
-      # ssh works
-      # image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240111"
-      # check if script by google enables ssh for this versin
-      image = "projects/windows-cloud/global/images/windows-server-2019-dc-v20231213"
+      image = "projects/windows-cloud/global/images/windows-server-2022-dc-v20240111"
       size  = 50
     }
   }
@@ -32,7 +29,6 @@ resource "google_compute_instance" "windows_vm" {
   }
 
   metadata = {
-    # sysprep-specialize-script-ps1 = data.template_file.sysprep_script.rendered
     windows-startup-script-ps1    = data.template_file.sysprep_script.rendered
     enable-windows-ssh            = "TRUE"
     sysprep-specialize-script-cmd = "googet -noconfirm=true install google-compute-engine-ssh"

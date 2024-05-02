@@ -4,6 +4,10 @@ terraform {
       source  = "gitlabhq/gitlab"
       version = "16.11.0"
     }
+    google = {
+      source  = "hashicorp/google"
+      version = "5.27.0"
+    }
   }
 }
 

@@ -8,4 +8,3 @@ run_windows_docker_command:
     - docker
   script:
     - Write-Output "hello, I am running inside docker container"
-    - whoami
