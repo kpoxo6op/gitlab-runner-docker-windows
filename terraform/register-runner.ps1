@@ -20,7 +20,7 @@ $registerParams = @(
   "--description", "docker for windows runner",
   "--executor", "docker-windows",
   "--non-interactive",
-  "--token", "glrt-XNSueHSZzTBjQxRrwT-x",
+  "--token", "${runner_token}",
   "--url", "https://gitlab.com/",
   "--docker-image", "mcr.microsoft.com/windows/nanoserver:ltsc2022"
 )
