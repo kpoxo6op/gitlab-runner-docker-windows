@@ -7,4 +7,5 @@ run_windows_docker_command:
     - windows
     - docker
   script:
-    - docker run mcr.microsoft.com/windows/nanoserver:ltsc2022 cmd /c "echo Hello from Windows Nano Server 2022"
+    - Write-Output "hello, I run inside docker container"
+    - whoami

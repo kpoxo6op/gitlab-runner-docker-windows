@@ -22,7 +22,7 @@ $registerParams = @(
   "--non-interactive",
   "--token", "${runner_token}",
   "--url", "https://gitlab.com/",
-  "--docker-image", "mcr.microsoft.com/windows/servercore:ltsc2019"
+  "--docker-image", "mcr.microsoft.com/windows/servercore:ltsc2022"
 )
 & $gitlabRunnerExe @registerParams
 
