@@ -2,6 +2,7 @@ resource "gitlab_project" "project" {
   name             = "Docker for Windows Demo"
   description      = "Build an app inside Windows Container"
   visibility_level = "public"
+  build_timeout    = "36000"
 }
 
 resource "gitlab_user_runner" "runner" {
