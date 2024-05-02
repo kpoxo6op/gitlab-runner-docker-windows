@@ -31,8 +31,8 @@ if (Get-Service *docker* -ea SilentlyContinue) {
     "--non-interactive",
     "--token", "${runner_token}",
     "--url", "https://gitlab.com/",
-    # https://hub.docker.com/_/microsoft-windows-nanoserver
-    "--docker-image", "mcr.microsoft.com/windows/nanoserver:ltsc2019",
+    # https://hub.docker.com/_/microsoft-powershell
+    "--docker-image", "mcr.microsoft.com/powershell:lts-nanoserver-1809",
     # https://hub.docker.com/r/gitlab/gitlab-runner-helper/tags
     "--docker-helper-image", "registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper:x86_64-bleeding-nanoserver1809"
   )
