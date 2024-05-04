@@ -1,5 +1,5 @@
 resource "gitlab_project" "project" {
-  name             = "Docker for Windows Demo"
+  name             = "GitLab-${var.project_name}"
   description      = "Build an app inside Windows Container"
   visibility_level = "public"
   build_timeout    = "36000"

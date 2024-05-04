@@ -12,12 +12,10 @@ terraform {
 }
 
 provider "google" {
-    project = "gitlab-agent-pwsh-tf-state"
+    project = "${var.project_name}"
     region = "australia-southeast1"
-    credentials = "${var.user_home}/infra-admin-key.json"
 }
 
 provider "gitlab" {
-  token    = "${var.gitlab_token}"
   base_url = "https://gitlab.com/api/v4/"
 }

@@ -1,7 +1,7 @@
 # check docker and runner registration
 
 ```sh
-gcloud compute ssh gitlab-runner-windows --project=gitlab-agent-pwsh --zone=australia-southeast1-a
+gcloud compute ssh gitlab-runner-windows
 pwsh
 Get-Content C:\Logs\startup.txt -Wait
 Get-Content C:\GitLab-Runner\config.toml
