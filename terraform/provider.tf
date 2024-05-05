@@ -12,8 +12,8 @@ terraform {
 }
 
 provider "google" {
-    project = "${var.project_name}"
-    region = "australia-southeast1"
+    project = var.project_name
+    region = var.gcp_region
 }
 
 provider "gitlab" {

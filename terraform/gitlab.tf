@@ -5,13 +5,6 @@ resource "gitlab_project" "project" {
   build_timeout    = "36000"
 }
 
-resource "gitlab_user_runner" "runner" {
-  runner_type = "project_type"
-  project_id  = gitlab_project.project.id
-  description = "Runner with Docker for Windows executor"
-  tag_list    = ["windows", "docker"]
-}
-
 resource "gitlab_repository_file" "pipeline" {
   project        = gitlab_project.project.id
   file_path      = ".gitlab-ci.yml"
@@ -19,4 +12,11 @@ resource "gitlab_repository_file" "pipeline" {
   content        = base64encode(file("${path.module}/.gitlab-ci.yml"))
   commit_message = "Init pipeline"
   author_name    = "Terraform"
+}
+
+resource "gitlab_user_runner" "runner" {
+  runner_type = "project_type"
+  project_id  = gitlab_project.project.id
+  description = "Runner with Docker for Windows executor"
+  tag_list    = ["windows", "docker"]
 }

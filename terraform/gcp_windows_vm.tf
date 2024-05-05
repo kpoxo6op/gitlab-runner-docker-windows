@@ -10,9 +10,9 @@ resource "google_compute_instance" "windows_vm" {
   project      = var.project_name
   name         = "gitlab-runner-windows"
   machine_type = "e2-medium"
-  zone         = "australia-southeast1-a"
+  zone         = var.gcp_zone
 
-  tags = ["windows-vm-ssh"]
+  tags = ["windows-vm-rdp", "windows-vm-ssh"]
 
   boot_disk {
     initialize_params {
@@ -37,6 +37,20 @@ resource "google_compute_instance" "windows_vm" {
     email  = "terraform-admin@${var.project_name}.iam.gserviceaccount.com"
     scopes = ["https://www.googleapis.com/auth/cloud-platform"]
   }
+}
+
+resource "google_compute_firewall" "allow_rdp" {
+  name    = "allow-rdp"
+  project = var.project_name
+  network = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["3389"]
+  }
+
+  source_ranges = [var.my_ip_address]
+  target_tags   = ["windows-vm-rdp"]
 }
 
 resource "google_compute_firewall" "allow_ssh" {
