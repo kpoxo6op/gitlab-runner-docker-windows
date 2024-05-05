@@ -47,7 +47,7 @@ if (Get-Service *docker* -ea SilentlyContinue) {
     "--builds-dir", $runnerDir,
     "--cache-dir", $runnerDir,
     "--config", "$runnerDir\config.toml",
-    "--description", "docker for windows runner",
+    "--description", "Docker for Windows runner",
     "--executor", "docker-windows",
     "--non-interactive",
     "--token", "${runner_token}",
